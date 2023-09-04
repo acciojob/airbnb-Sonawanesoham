@@ -4,42 +4,40 @@ import com.driver.model.Booking;
 import com.driver.model.Facility;
 import com.driver.model.Hotel;
 import com.driver.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-@Service
+
 public class HotelManagementService {
 
+    HotelManagmentRepository hotelManagmentRepository = new HotelManagmentRepository();
 
-    HotelManagementRepository hotelManagementRepository = new HotelManagementRepository();
-
-    public boolean addHotel(Hotel hotel) {
-        return hotelManagementRepository.addHotel(hotel);
+    public String addHotel(Hotel hotel) {
+        if(hotel.getHotelName() == null || hotel == null){
+            return "FAILURE";
+        }
+        return hotelManagmentRepository.addHotel(hotel);
     }
 
     public Integer addUser(User user) {
-        return hotelManagementRepository.addUser(user);
+        return  hotelManagmentRepository.addUser(user);
     }
 
     public String getHotelWithMostFacilities() {
-        return hotelManagementRepository.getHotelWithMostFacilities();
+        return hotelManagmentRepository.getHotelWithMostFacilities();
     }
 
     public int bookARoom(Booking booking) {
-
-        UUID uuid = UUID.randomUUID();
-        String bookingId = uuid.toString();
-        booking.setBookingId(bookingId);
-        return hotelManagementRepository.bookARoom(bookingId , booking);
+        String bookingid = UUID.randomUUID().toString();
+        booking.setBookingId(bookingid);
+        return hotelManagmentRepository.bookARoom(booking);
     }
 
     public int getBookings(Integer aadharCard) {
-        return hotelManagementRepository.getBookings(aadharCard);
+        return hotelManagmentRepository.getBookings(aadharCard);
     }
 
     public Hotel updateFacilities(List<Facility> newFacilities, String hotelName) {
-        return hotelManagementRepository.updateFacilities(newFacilities , hotelName);
+        return hotelManagmentRepository.updateFacilities(newFacilities,hotelName);
     }
 }
